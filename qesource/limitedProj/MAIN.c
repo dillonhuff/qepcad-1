@@ -14,14 +14,14 @@ static void init_SIGINT_handler();
 void INDENTED_NEWLINE(const int level) {
   cout << "\n";
   for (int i = 0; i < level; i++) {
-    cout << "\t";
+    cout << "  ";
   }
 }
 
 void PRINT_WORD(const int level, Word poly_list) {
   if (ISLIST(poly_list)) {
     INDENTED_NEWLINE(level);
-    cout << "LIST" << endl;
+    cout << "LIST at level " << level << " of length " << LENGTH(poly_list) << endl;
 
     while (poly_list != NIL) {
       Word poly;      
@@ -225,12 +225,22 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   printf("# of j level polynomials = %d\n", LENGTH(J));
 
   Word p1 = LELTI(P, 1);
+
+  cout << "Length of p1 = " << LENGTH(p1) << endl;
+  PRINT_WORD(0, p1);
+
+  cout << "First element of p1" << endl;
+  PRINT_WORD(0, LELTI(p1, 1));
+
+  PRINT_POLY_LIST(r, p1, GVVL);
+
+  // How does this succeed when A is a list of polynomials, not a single one?
   Word convp1 = DIPFP(1, A);
 
   cout << "p1 as distributive = " << convp1 << endl;
 
   
-  PRINT_WORD(0, GVVL);
+  //PRINT_WORD(0, GVVL);
   //IPDWRITE(1, p1, LIST1(LIST1('a')));
   //IPDWRITE(r, p1, GVVL);
   
