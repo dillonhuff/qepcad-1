@@ -335,9 +335,7 @@ SET(QEPCAD_LIB_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/source/saclib/SOSRSUBS.c
 	${CMAKE_SOURCE_DIR}/qesource/source/saclib/SOSRSUPS.c
 	${CMAKE_SOURCE_DIR}/qesource/source/saclib/SUBSET.c
-	)
 
-SET(QEPCAD_MAIN_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/source/main/BEGINQEPCAD.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/ENDQEPCAD.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/INITCTRL.c
@@ -346,7 +344,6 @@ SET(QEPCAD_MAIN_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/source/main/INITSTAT.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/INITSYS.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/INPUTRD.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/MAIN.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/PRINTBANNER.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/QEPCAD.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/SETUPSYS.c
@@ -355,7 +352,17 @@ SET(QEPCAD_MAIN_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/source/main/QEPCADauto.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/qepcadcls.c
 	${CMAKE_SOURCE_DIR}/qesource/source/main/CADautoConst.c
+
+)
+
+SET(QEPCAD_MAIN_SOURCE
+	${CMAKE_SOURCE_DIR}/qesource/source/main/MAIN.c
 	)
+
+SET(QEPCAD_LIMPROJ_SOURCE
+	${CMAKE_SOURCE_DIR}/qesource/limitedProj/MAIN.c
+	)
+
 SET(ADJ2D_LIB_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/extensions/adj2d/testfunc.c
 	${CMAKE_SOURCE_DIR}/qesource/extensions/adj2d/ADJ_2D.c
@@ -691,14 +698,21 @@ ADD_LIBRARY(sfext
 	)
 set_source_files_properties(${SFEXT_LIB_SOURCE} PROPERTIES LANGUAGE CXX)
 
+ADD_LIBRARY(qeplib
+	${QEPCAD_LIB_SOURCE}
+	)
+
+set_source_files_properties(${QEPCAD_LIB_SOURCE} PROPERTIES LANGUAGE CXX)
+
 ADD_EXECUTABLE(qepcad
 	${QEPCAD_MAIN_SOURCE}
-	${QEPCAD_LIB_SOURCE}
 	${SACLIB_HEADERS}
 	)
-set_source_files_properties(${QEPCAD_LIB_SOURCE} PROPERTIES LANGUAGE CXX)
-set_source_files_properties(${QEPCAD_MAIN_SOURCE} PROPERTIES LANGUAGE CXX)
 
+set_source_files_properties(${QEPCAD_MAIN_SOURCE} PROPERTIES LANGUAGE CXX)
+set_source_files_properties(${QEPCAD_LIMPROJ_SOURCE} PROPERTIES LANGUAGE CXX)
+
+TARGET_LINK_LIBRARIES(qepcad qeplib)
 TARGET_LINK_LIBRARIES(qepcad saclib)
 TARGET_LINK_LIBRARIES(qepcad adj2d)
 TARGET_LINK_LIBRARIES(qepcad newadj)
@@ -706,8 +720,22 @@ TARGET_LINK_LIBRARIES(qepcad lift2d)
 TARGET_LINK_LIBRARIES(qepcad rend)
 TARGET_LINK_LIBRARIES(qepcad sfext)
 
+ADD_EXECUTABLE(limproj
+	${QEPCAD_LIMPROJ_SOURCE}
+	${SACLIB_HEADERS}
+	)
+
+TARGET_LINK_LIBRARIES(limproj qeplib)
+TARGET_LINK_LIBRARIES(limproj saclib)
+TARGET_LINK_LIBRARIES(limproj adj2d)
+TARGET_LINK_LIBRARIES(limproj newadj)
+TARGET_LINK_LIBRARIES(limproj lift2d)
+TARGET_LINK_LIBRARIES(limproj rend)
+TARGET_LINK_LIBRARIES(limproj sfext)
+
 IF (NOT MSVC)
 	TARGET_LINK_LIBRARIES(qepcad readline)
+	TARGET_LINK_LIBRARIES(limproj readline)
 ENDIF ()
 
 configure_file(qesource/bin/qepcad.help ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qepcad.help COPYONLY)
