@@ -87,12 +87,11 @@ void PRINT_POLY_LIST(Word r, Word GVVL, const Word poly_list) {
     Word poly;      
     ADV(poly_list_it, &poly, &poly_list_it);
 
-    cout << "POLY" << endl;
-    PRINT_WORD(0, poly);
+    //cout << "POLY" << endl;
+    //PRINT_WORD(0, poly);
 
-    printf("Length of poly = %d\n", LENGTH(poly));
-
-    //assert(LENGTH(poly) == 5);
+    //printf("Length of poly = %d\n", LENGTH(poly));
+    assert(LENGTH(poly) == 5);
 
     // This is the magic incantation that gets polynomials to print
     IPDWRITE(r, LELTI(poly,PO_POLY), GVVL); SWRITE("\n");
@@ -147,7 +146,7 @@ void PRINT_POLY_LIST(Word r, Word GVVL, const Word poly_list) {
 
 }
 
-void PRINT_POLYS(Word r, Word GVVL, Word A) {
+void PRINT_POLYS(Word r, Word GVVL, const Word A) {
   Word Ap = A;
   while (Ap != NIL) {
     SWRITE("A level not NIL\n");
@@ -239,14 +238,18 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   /* cout << "First element of p1" << endl; */
   /* PRINT_WORD(0, LELTI(p1, 1)); */
 
-  PRINT_POLY_LIST(1, GVVL, p1);
+  cout << "Projection factors" << endl;
+  PRINT_POLYS(1, GVVL, P);
+  cout << "Level j polys" << endl;
+  PRINT_POLYS(1, GVVL, J);
+  //PRINT_POLY_LIST(1, GVVL, p1);
 
   cout << "Printing poly list" << endl;
 
   // How does this succeed when A is a list of polynomials, not a single one?
-  Word convp1 = DIPFP(1, A);
+  /* Word convp1 = DIPFP(1, A); */
 
-  cout << "p1 as distributive = " << convp1 << endl;
+  /* cout << "p1 as distributive = " << convp1 << endl; */
 
   
   //PRINT_WORD(0, GVVL);
