@@ -76,6 +76,12 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
       Word poly;      
       ADV(poly_list, &poly, &poly_list);
 
+      while (poly != NIL) {
+	SWRITE("\t\tPOLY ELEM\n");
+	Word pelem;
+	ADV(poly, &pelem, &poly);
+      }
+
       /* if (poly != NIL) { */
       /* 	IPDWRITE(r, poly, GVVL); */
       /* } */
