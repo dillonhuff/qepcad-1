@@ -192,8 +192,17 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
 
   printf("# of projection factors  = %d\n", LENGTH(P));
   printf("# of j level polynomials = %d\n", LENGTH(J));
+
+  Word p1 = LELTI(P, 1);
+  Word convp1 = DIPFP(r, A);
+
+  cout << "p1 as distributive = " << convp1 << endl;
+
+  PRINT_PROJECTION_POLY_LIST(r, GVVL, GVVL);
+  //IPDWRITE(1, p1, LIST1(LIST1('a')));
+  //IPDWRITE(r, p1, GVVL);
   
-  PRINT_PROJECTION_POLY_LIST(r, GVVL, P);
+  //PRINT_PROJECTION_POLY_LIST(r, GVVL, P);
 
   /*Int*/ if (PCCONTINUE == TRUE) { goto Return; }
 
