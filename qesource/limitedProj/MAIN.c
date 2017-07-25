@@ -11,6 +11,118 @@ static void SIGINT_handler(int i, siginfo_t *sip,void* uap);
 static void init_SIGINT_handler();
 #endif
 
+void PRINT_PROJECTION_POLY_LIST(Word r, Word GVVL, Word poly_list) {
+  while (poly_list != NIL) {
+    //SWRITE("\tpoly list elem\n");
+    Word poly;      
+    ADV(poly_list, &poly, &poly_list);
+
+    if (ISLIST(poly)) {
+      printf("Length of list = %d\n", LENGTH(poly));
+
+      for (int i = 1; i <= LENGTH(poly); i++) {
+	Word e = LELTI(poly, i);
+	printf("poly[%d] = %d\n", i, e);
+	printf("ISLIST = %d\n", ISLIST(e));
+	printf("ISATOM = %d\n", ISATOM(e));
+	printf("ISOBJECT = %d\n", ISOBJECT(e));
+
+	if (ISLIST(e)) {
+	  PRINT_PROJECTION_POLY_LIST(r, GVVL, e);
+	} else {
+	  printf("%d is not a list\n", e);
+	}
+      }
+    } else {
+      printf("poly %d is not a list\n", poly);
+    }
+
+    //assert(LENGTH(poly) == 5);
+
+    // This is the magic incantation that gets polynomials to print
+    //IPDWRITE(r, LELTI(poly,PO_POLY), GVVL); SWRITE("\n");
+
+  }
+
+}
+
+void PRINT_POLY_LIST(Word r, Word GVVL, Word poly_list) {
+
+  while (poly_list != NIL) {
+    //SWRITE("\tpoly list elem\n");
+    Word poly;      
+    ADV(poly_list, &poly, &poly_list);
+
+    //printf("Length of poly = %d\n", LENGTH(poly));
+
+    //assert(LENGTH(poly) == 5);
+
+    // This is the magic incantation that gets polynomials to print
+    IPDWRITE(r, LELTI(poly,PO_POLY), GVVL); SWRITE("\n");
+    // Seems to be a list
+    //Word p1 = LELTI(poly, 1);
+
+    //printf("\t\tLength of p1 = %d\n", LENGTH(p1));
+
+    // Seems to be a list
+    //Word p2 = LELTI(poly, 2);
+
+    //printf("\t\tLength of p2 = %d\n", LENGTH(p2));
+
+    // Seems to be a one element something
+    //Word p3 = LELTI(poly, 3);
+
+    //printf("\t\tLength of p3 = %d\n", LENGTH(p3));
+
+    // Seems to be an integer
+    //Word p4 = LELTI(poly, 4);
+
+    //printf("\t\tp4 = %d\n", p4);
+
+    // Seems to be an integer
+    //Word p5 = LELTI(poly, 5);
+
+    //printf("\t\tp5 = %d\n", p5);
+
+    /* while (p5 != NIL) { */
+    /* 	Word dm; */
+    /* 	ADV(p5, &dm, &p5); */
+    /* 	SWRITE("portion of p5\n"); */
+    /* } */
+
+    /*   while (poly != NIL) { */
+    /* 	SWRITE("\t\tPOLY ELEM\n"); */
+    /* 	Word pelem; */
+    /* 	ADV(poly, &pelem, &poly); */
+
+    /* 	printf("pelem = %d\n", pelem); */
+    /* 	while (pelem != NIL) { */
+    /* 	  Word peel; */
+    /* 	  ADV(pelem, &peel, &pelem); */
+    /* 	  SWRITE("\t\t\tPortion of elem\n"); */
+    /* 	} */
+    /*   } */
+
+    /*   /\* if (poly != NIL) { *\/ */
+    /*   /\* 	IPDWRITE(r, poly, GVVL); *\/ */
+    /*   /\* } *\/ */
+  }
+
+}
+
+void PRINT_POLYS(Word r, Word GVVL, Word A) {
+  Word Ap = A;
+  while (Ap != NIL) {
+    SWRITE("A level not NIL\n");
+    Word poly_list;  
+    ADV(Ap, &poly_list, &Ap);
+
+    PRINT_POLY_LIST(r, GVVL, poly_list);
+
+
+  }
+}
+
 void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F_s_)
 {
 
@@ -55,11 +167,16 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   /*Int PCNSTEP = 1; */
 
 
-  printf("# of variables = %d\n", LENGTH(GVVL));
-
-  //FWRITE(GVVL, F);
   QFFWR(GVVL, F);
-  SWRITE("\n");
+  SWRITE("\n\n");
+  
+  printf("# of variables = %d\n\n", LENGTH(GVVL));
+
+  SWRITE("Initial polynomial set\n");
+  PRINT_POLYS(r, GVVL, A);
+  SWRITE("\n\n");
+  
+  //FWRITE(GVVL, F);
 
   Word var_list = GVVL;
   while (var_list != NIL) {
@@ -70,75 +187,13 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   }
 
   printf("r              = %d\n", r);
-  while (A != NIL) {
-    SWRITE("A level not NIL\n");
-    Word poly_list;  
-    ADV(A, &poly_list, &A);
-
-    while (poly_list != NIL) {
-      SWRITE("\tpoly list elem\n");
-      Word poly;      
-      ADV(poly_list, &poly, &poly_list);
-
-      printf("Length of poly = %d\n", LENGTH(poly));
-
-      assert(LENGTH(poly) == 5);
-
-      // This is the magic incantation that gets polynomials to print
-      IPDWRITE(r, LELTI(poly,PO_POLY), GVVL); SWRITE("\n");
-      // Seems to be a list
-      Word p1 = LELTI(poly, 1);
-
-      printf("\t\tLength of p1 = %d\n", LENGTH(p1));
-
-      // Seems to be a list
-      Word p2 = LELTI(poly, 2);
-
-      printf("\t\tLength of p2 = %d\n", LENGTH(p2));
-
-      // Seems to be a one element something
-      Word p3 = LELTI(poly, 3);
-
-      printf("\t\tLength of p3 = %d\n", LENGTH(p3));
-
-      // Seems to be an integer
-      Word p4 = LELTI(poly, 4);
-
-      printf("\t\tp4 = %d\n", p4);
-
-      // Seems to be an integer
-      Word p5 = LELTI(poly, 5);
-
-      printf("\t\tp5 = %d\n", p5);
-
-      /* while (p5 != NIL) { */
-      /* 	Word dm; */
-      /* 	ADV(p5, &dm, &p5); */
-      /* 	SWRITE("portion of p5\n"); */
-      /* } */
-
-    /*   while (poly != NIL) { */
-    /* 	SWRITE("\t\tPOLY ELEM\n"); */
-    /* 	Word pelem; */
-    /* 	ADV(poly, &pelem, &poly); */
-
-    /* 	printf("pelem = %d\n", pelem); */
-    /* 	while (pelem != NIL) { */
-    /* 	  Word peel; */
-    /* 	  ADV(pelem, &peel, &pelem); */
-    /* 	  SWRITE("\t\t\tPortion of elem\n"); */
-    /* 	} */
-    /*   } */
-
-    /*   /\* if (poly != NIL) { *\/ */
-    /*   /\* 	IPDWRITE(r, poly, GVVL); *\/ */
-    /*   /\* } *\/ */
-    }
-
-  }
-  return;
 
   PROJECT(r,A,&P,&J);
+
+  printf("# of projection factors  = %d\n", LENGTH(P));
+  printf("# of j level polynomials = %d\n", LENGTH(J));
+  
+  PRINT_PROJECTION_POLY_LIST(r, GVVL, P);
 
   /*Int*/ if (PCCONTINUE == TRUE) { goto Return; }
 
