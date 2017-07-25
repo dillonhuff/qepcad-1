@@ -7,3 +7,4 @@ install_manifest.txt
 bin/
 lib/
 CTestTestfile.cmake
+*~
