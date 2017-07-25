@@ -18,14 +18,16 @@ void INDENTED_NEWLINE(const int level) {
   }
 }
 
-void PRINT_WORD(const int level, Word poly_list) {
+void PRINT_WORD(const int level, const Word poly_list) {
   if (ISLIST(poly_list)) {
     INDENTED_NEWLINE(level);
     cout << "LIST at level " << level << " of length " << LENGTH(poly_list) << endl;
 
-    while (poly_list != NIL) {
+    Word poly_list_it = poly_list;
+    
+    while (poly_list_it != NIL) {
       Word poly;      
-      ADV(poly_list, &poly, &poly_list);
+      ADV(poly_list_it, &poly, &poly_list_it);
 
       PRINT_WORD(level + 1, poly);
     }
@@ -77,14 +79,18 @@ void PRINT_PROJECTION_POLY_LIST(Word r, Word GVVL, Word poly_list) {
 
 }
 
-void PRINT_POLY_LIST(Word r, Word GVVL, Word poly_list) {
+void PRINT_POLY_LIST(Word r, Word GVVL, const Word poly_list) {
 
-  while (poly_list != NIL) {
+  Word poly_list_it = poly_list;
+  while (poly_list_it != NIL) {
     //SWRITE("\tpoly list elem\n");
     Word poly;      
-    ADV(poly_list, &poly, &poly_list);
+    ADV(poly_list_it, &poly, &poly_list_it);
 
-    //printf("Length of poly = %d\n", LENGTH(poly));
+    cout << "POLY" << endl;
+    PRINT_WORD(0, poly);
+
+    printf("Length of poly = %d\n", LENGTH(poly));
 
     //assert(LENGTH(poly) == 5);
 
@@ -227,12 +233,15 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   Word p1 = LELTI(P, 1);
 
   cout << "Length of p1 = " << LENGTH(p1) << endl;
-  PRINT_WORD(0, p1);
+  cout << "Length of first elem of p1 = " << LENGTH(LELTI(p1, 1)) << endl;
+  //PRINT_WORD(0, p1);
 
-  cout << "First element of p1" << endl;
-  PRINT_WORD(0, LELTI(p1, 1));
+  /* cout << "First element of p1" << endl; */
+  /* PRINT_WORD(0, LELTI(p1, 1)); */
 
-  PRINT_POLY_LIST(r, p1, GVVL);
+  PRINT_POLY_LIST(1, GVVL, p1);
+
+  cout << "Printing poly list" << endl;
 
   // How does this succeed when A is a list of polynomials, not a single one?
   Word convp1 = DIPFP(1, A);
