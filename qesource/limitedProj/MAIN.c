@@ -53,10 +53,16 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   /*Int PCNSTEP = 1; */
 
 
+  printf("# of variables = %d\n", LENGTH(GVVL));
   while (A != NIL) {
     SWRITE("A not NIL\n");
-    Word dummy;
+    Word dummy;  
     ADV(A, &dummy, &A);
+
+    if (A != NIL) {
+      IPDWRITE(r, dummy, GVVL);
+    }
+
   }
   return;
 
