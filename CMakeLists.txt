@@ -105,23 +105,6 @@ SET(QEPCAD_LIB_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/source/io/VREADR.c
 	${CMAKE_SOURCE_DIR}/qesource/source/io/VWRITE.c
 	${CMAKE_SOURCE_DIR}/qesource/source/io/XREADR.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/BEGINQEPCAD.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/ENDQEPCAD.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/INITCTRL.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/INITDB.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/INITIO.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/INITSTAT.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/INITSYS.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/INPUTRD.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/MAIN.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/PRINTBANNER.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/QEPCAD.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/SETUPSYS.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/FAIL.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/data.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/QEPCADauto.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/qepcadcls.c
-	${CMAKE_SOURCE_DIR}/qesource/source/main/CADautoConst.c
 	${CMAKE_SOURCE_DIR}/qesource/source/normqff/EXPAFEQ.c
 	${CMAKE_SOURCE_DIR}/qesource/source/normqff/EXPAFGT.c
 	${CMAKE_SOURCE_DIR}/qesource/source/normqff/EXPAFGTS.c
@@ -354,6 +337,25 @@ SET(QEPCAD_LIB_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/source/saclib/SUBSET.c
 	)
 
+SET(QEPCAD_MAIN_SOURCE
+	${CMAKE_SOURCE_DIR}/qesource/source/main/BEGINQEPCAD.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/ENDQEPCAD.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/INITCTRL.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/INITDB.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/INITIO.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/INITSTAT.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/INITSYS.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/INPUTRD.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/MAIN.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/PRINTBANNER.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/QEPCAD.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/SETUPSYS.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/FAIL.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/data.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/QEPCADauto.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/qepcadcls.c
+	${CMAKE_SOURCE_DIR}/qesource/source/main/CADautoConst.c
+	)
 SET(ADJ2D_LIB_SOURCE
 	${CMAKE_SOURCE_DIR}/qesource/extensions/adj2d/testfunc.c
 	${CMAKE_SOURCE_DIR}/qesource/extensions/adj2d/ADJ_2D.c
@@ -690,10 +692,12 @@ ADD_LIBRARY(sfext
 set_source_files_properties(${SFEXT_LIB_SOURCE} PROPERTIES LANGUAGE CXX)
 
 ADD_EXECUTABLE(qepcad
+	${QEPCAD_MAIN_SOURCE}
 	${QEPCAD_LIB_SOURCE}
 	${SACLIB_HEADERS}
 	)
 set_source_files_properties(${QEPCAD_LIB_SOURCE} PROPERTIES LANGUAGE CXX)
+set_source_files_properties(${QEPCAD_MAIN_SOURCE} PROPERTIES LANGUAGE CXX)
 
 TARGET_LINK_LIBRARIES(qepcad saclib)
 TARGET_LINK_LIBRARIES(qepcad adj2d)

@@ -30,6 +30,7 @@
 // #endif
 
 #define _MAC_OSX_
+
 #ifdef _MAC_OSX_
 #include <fenv.h>
 #endif
