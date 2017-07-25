@@ -12,6 +12,65 @@ static void init_SIGINT_handler();
 void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F_s_)
 {
 
+  Word A,D,F,F_e,F_n,F_s,Fh,J,P,Q,Ths,f,i,r,t, T;
+
+  // To satisfy Visual Studio Debugger.
+  t = 0;
+  F_e = 0;
+  F_n = 0;
+  F_s = 0;
+
+  /* hide Ths,i,t; */
+  Word cL,**cC,cr,ce,ci,*cT,cj,cs,cl,ct; /* Chris variables. */
+  Word Cs,Ps,Qs,Pps,Cps,Qps,SF; /* Chris variables. */
+  char c1,c2; /* Chris variables. */
+ Step1: /* Normalize. */
+  FIRST4(Fs,&r,&f,&Q,&Fh);
+  /*Int*/ PCNSTEP = 1;
+  /*Int*/ if (INTERACT()) USERINT(LFS("Before Normalization"),'a');
+  /*Int*/ if (PCCONTINUE == TRUE) { goto Return; }
+  /*Int*/ Ths = ACLOCK();
+  F = NORMQFF(Fh);
+  if (GVUA != NIL) GVNA = NORMQFF(GVUA);
+  /*Int*/ Ths = ACLOCK() - Ths;
+  /*Int*/ TMNORMQFF = Ths;
+  /*Int*/ GVNQFF = F;
+  //       if (TYPEQFF(F) != UNDET) { t = EQU; F_e = F; goto Return; }
+
+ Step2: /* Projection. */
+  if (GVUA != NIL) F = LIST3(ANDOP,GVNA,F);
+  A = EXTRACT(r,F);
+
+  if (GVUA != NIL) {
+    GVNA = SECOND(F);
+    F = THIRD(F); }
+  /*Int*/ GVNIP = A;
+  /*Int*/ for (i = 1; i <= r; i++) NMNIP[i] = LENGTH(LELTI(A,i));
+  /*Int*/ GVPF = LLCOPY(A);
+  /*Int*/ GVLV = r;
+  /*Int*/ PCNSTEP = 1;
+  /*Int if (INTERACT()) USERINT(LFS("After Normalization"),'A'); */
+  /*Int PCNSTEP = 1; */
+
+
+  while (A != NIL) {
+    SWRITE("A not NIL\n");
+    Word dummy;
+    ADV(A, &dummy, &A);
+  }
+  return;
+
+  PROJECT(r,A,&P,&J);
+
+  /*Int*/ if (PCCONTINUE == TRUE) { goto Return; }
+
+ Return: /* Prepare for return. */
+  *t_ = t;
+  *F_e_ = F_e;
+  *F_n_ = F_n;
+  *F_s_ = F_s;
+  return;
+  
 }
 
 /*====================================================================
@@ -47,7 +106,8 @@ int main(int argc, char **argv) {
     INPUTRD(&Fs,&V);
     QepcadCls Q(V,Fs);
     BTMQEPCAD = ACLOCK();
-    Q.QEPCAD(Fs,&t,&F_e,&F_n,&F_s);
+    Q.PROJECT_QVARS(Fs, &t, &F_e, &F_n, &F_s);
+
   } while (PCCONTINUE == TRUE);
        
  Step3: /* Clean up the system. */
