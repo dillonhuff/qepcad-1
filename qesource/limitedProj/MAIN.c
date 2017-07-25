@@ -28,7 +28,7 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   FIRST4(Fs,&r,&f,&Q,&Fh);
   /*Int*/ PCNSTEP = 1;
   /*Int*/ if (INTERACT()) USERINT(LFS("Before Normalization"),'a');
-  /*Int*/ if (PCCONTINUE == TRUE) { goto Return; }
+  /*Int*/ if (PCCONTINUE == TRUE) { return; }
   /*Int*/ Ths = ACLOCK();
   F = NORMQFF(Fh);
   if (GVUA != NIL) GVNA = NORMQFF(GVUA);
@@ -54,13 +54,31 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
 
 
   printf("# of variables = %d\n", LENGTH(GVVL));
-  while (A != NIL) {
-    SWRITE("A not NIL\n");
-    Word dummy;  
-    ADV(A, &dummy, &A);
 
-    if (A != NIL) {
-      IPDWRITE(r, dummy, GVVL);
+  Word var_list = GVVL;
+  while (var_list != NIL) {
+    Word var;
+    ADV(var_list, &var, &var_list);
+    printf("\tvar = %d\n", var);
+    VWRITE(var);
+    SWRITE("\n");
+  }
+
+  printf("r              = %d\n", r);
+  while (A != NIL) {
+    SWRITE("A level not NIL\n");
+    Word poly_list;  
+    ADV(A, &poly_list, &A);
+
+
+    while (poly_list != NIL) {
+      SWRITE("\tpoly list elem\n");
+      Word poly;      
+      ADV(poly_list, &poly, &poly_list);
+
+      /* if (poly != NIL) { */
+      /* 	IPDWRITE(r, poly, GVVL); */
+      /* } */
     }
 
   }
