@@ -9,51 +9,56 @@ static void SIGINT_handler(int i, siginfo_t *sip,void* uap);
 static void init_SIGINT_handler();
 #endif
 
+void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F_s_)
+{
+
+}
+
 /*====================================================================
                  main(argc,argv)
 
 Main Algorithm which drives the QEPCAD sytem. 
 ====================================================================*/
-int main(int argc, char **argv)
-{
-       Word Fs,F_e,F_n,F_s,V,t,ac;
-       char **av;
+int main(int argc, char **argv) {
+  Word Fs,F_e,F_n,F_s,V,t,ac;
+  char **av;
 
-Step1: /* Set up the system. */
-       ARGSACLIB(argc,argv,&ac,&av);
-       BEGINSACLIB((Word *)&argc);
-       BEGINQEPCAD(ac,av);
-	   #ifndef _MSC_VER
-       init_SIGINT_handler(); /* A special handler for SIGINT is needed
-                                 to shut down child processes. Also used
-			         for SIGTERM. */
-       #endif
+ Step1: /* Set up the system. */
+  ARGSACLIB(argc,argv,&ac,&av);
+  BEGINSACLIB((Word *)&argc);
+  BEGINQEPCAD(ac,av);
 
-Step2: /* Read input, create CAD, write result */
-       PCCONTINUE = FALSE;
-       PRINTBANNER();
-       do {
-	 // Reinitialize system in between runs
-	 if (PCCONTINUE == TRUE) 
-	 { 
-	   INITSYS();
-	   PCCONTINUE = FALSE;
-	 }
-	 INPUTRD(&Fs,&V);
-	 QepcadCls Q(V,Fs);
-	 BTMQEPCAD = ACLOCK();
-	 Q.QEPCAD(Fs,&t,&F_e,&F_n,&F_s);
-       } while (PCCONTINUE == TRUE);
+#ifndef _MSC_VER
+  init_SIGINT_handler(); /* A special handler for SIGINT is needed
+			    to shut down child processes. Also used
+			    for SIGTERM. */
+#endif
+
+ Step2: /* Read input, create CAD, write result */
+  PCCONTINUE = FALSE;
+  PRINTBANNER();
+  do {
+    // Reinitialize system in between runs
+    if (PCCONTINUE == TRUE) 
+      { 
+	INITSYS();
+	PCCONTINUE = FALSE;
+      }
+    INPUTRD(&Fs,&V);
+    QepcadCls Q(V,Fs);
+    BTMQEPCAD = ACLOCK();
+    Q.QEPCAD(Fs,&t,&F_e,&F_n,&F_s);
+  } while (PCCONTINUE == TRUE);
        
-Step3: /* Clean up the system. */
-       SWRITE("\n=====================  The End  =======================\n");
-       STATSACLIB();
-       ENDQEPCAD();
-       ENDSACLIB(SAC_FREEMEM);
-       free(av); /* Frees the array malloc'd by ARGSACLIB */
+ Step3: /* Clean up the system. */
+  SWRITE("\n=====================  The End  =======================\n");
+  STATSACLIB();
+  ENDQEPCAD();
+  ENDSACLIB(SAC_FREEMEM);
+  free(av); /* Frees the array malloc'd by ARGSACLIB */
 
-Return: /* Prepare for return. */
-       return 0;
+ Return: /* Prepare for return. */
+  return 0;
 }
 
 #ifndef _MSC_VER
