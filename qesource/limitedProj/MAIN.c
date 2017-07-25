@@ -55,6 +55,9 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
 
   printf("# of variables = %d\n", LENGTH(GVVL));
 
+  FWRITE(GVVL, Fs);
+  SWRITE("\n");
+
   Word var_list = GVVL;
   while (var_list != NIL) {
     Word var;
