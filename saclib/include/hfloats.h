@@ -11,23 +11,25 @@
 
 #include "sysdep.h"
 
-#ifdef _SPARC_SOLARIS_
-#include <ieeefp.h>
-#endif
+// #ifdef _SPARC_SOLARIS_
+// #include <ieeefp.h>
+// #endif
 
-#ifdef __CYGWIN__
-#include <ieeefp.h>
-#include <fenv.h>
-#else
-#ifdef _X86_LINUX_
-#include <ieee754.h>
-#include <fenv.h>
-#else
-#ifdef _WIN32
-#include <fenv.h>
-#endif
-#endif
-#endif
+// #ifdef __CYGWIN__
+// #include <ieeefp.h>
+// #include <fenv.h>
+// #else
+// #ifdef _X86_LINUX_
+// #include <ieee754.h>
+// #include <fenv.h>
+// #else
+// #ifdef _WIN32
+// #include <fenv.h>
+// #endif
+// #endif
+// #endif
+
+#define _MACOSX_
 
 #ifdef _MAC_OSX_
 #include <fenv.h>
