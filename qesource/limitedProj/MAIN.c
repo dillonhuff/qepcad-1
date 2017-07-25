@@ -11,6 +11,37 @@ static void SIGINT_handler(int i, siginfo_t *sip,void* uap);
 static void init_SIGINT_handler();
 #endif
 
+void INDENTED_NEWLINE(const int level) {
+  cout << "\n";
+  for (int i = 0; i < level; i++) {
+    cout << "\t";
+  }
+}
+
+void PRINT_WORD(const int level, Word poly_list) {
+  if (ISLIST(poly_list)) {
+    INDENTED_NEWLINE(level);
+    cout << "LIST" << endl;
+
+    while (poly_list != NIL) {
+      Word poly;      
+      ADV(poly_list, &poly, &poly_list);
+
+      PRINT_WORD(level + 1, poly);
+    }
+
+  } else {
+    INDENTED_NEWLINE(level);
+    cout << poly_list << endl;
+  }
+
+    //assert(LENGTH(poly) == 5);
+
+    // This is the magic incantation that gets polynomials to print
+    //IPDWRITE(r, LELTI(poly,PO_POLY), GVVL); SWRITE("\n");
+
+}
+
 void PRINT_PROJECTION_POLY_LIST(Word r, Word GVVL, Word poly_list) {
   while (poly_list != NIL) {
     //SWRITE("\tpoly list elem\n");
@@ -194,11 +225,12 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   printf("# of j level polynomials = %d\n", LENGTH(J));
 
   Word p1 = LELTI(P, 1);
-  Word convp1 = DIPFP(r, A);
+  Word convp1 = DIPFP(1, A);
 
   cout << "p1 as distributive = " << convp1 << endl;
 
-  PRINT_PROJECTION_POLY_LIST(r, GVVL, GVVL);
+  
+  PRINT_WORD(0, GVVL);
   //IPDWRITE(1, p1, LIST1(LIST1('a')));
   //IPDWRITE(r, p1, GVVL);
   
