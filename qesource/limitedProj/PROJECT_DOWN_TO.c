@@ -2,7 +2,7 @@
                          PROJECT_DOWN_TO(base, r,A; P,J)
 
 Projection Phase.
- 
+
 \Input
 
   \item{base} is an integer indicating the variable to stop projecting at
@@ -17,6 +17,8 @@ Projection Phase.
            $j$--level polynomials.
 ===========================================================================*/
 #include "qepcad.h"
+
+#include <iostream>
 
 //Word UNNORMALIZEFORMULA
 
@@ -43,7 +45,12 @@ Step2: /* Done? */
              /*Int*/ P = RMMPF(P,k);
              /*Int*/ GVPF = P;
              /*Int*/ NMPF[k] = LENGTH(LELTI(P,k));
-       if (k == base) goto Return;
+       cout << "k = " << k << endl;
+       if (k == base) {
+	 cout << "k    = " << k << endl;
+	 cout << "base = " << base << endl;
+	 goto Return;
+       }
 
 Step3: /* Project. */
              /*Int*/ Thss = ACLOCK();

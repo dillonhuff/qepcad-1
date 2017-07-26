@@ -224,7 +224,7 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
 
   printf("r              = %d\n", r);
 
-  int base_var = 3;
+  int base_var = 2;
   PROJECT_DOWN_TO(base_var, r, A, &P, &J);
 
   printf("# of projection factors  = %d\n", LENGTH(P));
@@ -239,11 +239,16 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   /* cout << "First element of p1" << endl; */
   /* PRINT_WORD(0, LELTI(p1, 1)); */
 
-  int vars_left = r - base_var;
+  //int vars_left = r - base_var;
   cout << "Projection factors" << endl;
-  PRINT_POLYS(vars_left, GVVL, P);
+
+  //PRINT_POLYS(base_var, GVVL, P);
+  PRINT_POLYS(1, GVVL, P);
+
   cout << "Level j polys" << endl;
-  PRINT_POLYS(vars_left, GVVL, J);
+
+  //PRINT_POLYS(base_var, GVVL, J);
+  PRINT_POLYS(1, GVVL, J);
   //PRINT_POLY_LIST(1, GVVL, p1);
 
   cout << "Printing poly list" << endl;
