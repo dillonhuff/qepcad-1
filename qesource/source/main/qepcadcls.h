@@ -327,5 +327,6 @@ Word NMATOM;           /* Number of atomic formulas in the solution qff */
 
   /* Dillons modifications */
   void PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F_s_);
+  void PROJECT_DOWN_TO(int base, Word r, Word A, Word *P_, Word *J_);
 
 };
