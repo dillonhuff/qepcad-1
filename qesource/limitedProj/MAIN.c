@@ -224,7 +224,8 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
 
   printf("r              = %d\n", r);
 
-  PROJECT(r,A,&P,&J);
+  int base_var = 2;
+  PROJECT_DOWN_TO(base_var, r, A, &P, &J);
 
   printf("# of projection factors  = %d\n", LENGTH(P));
   printf("# of j level polynomials = %d\n", LENGTH(J));
@@ -238,10 +239,11 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
   /* cout << "First element of p1" << endl; */
   /* PRINT_WORD(0, LELTI(p1, 1)); */
 
+  int vars_left = r - base_var;
   cout << "Projection factors" << endl;
-  PRINT_POLYS(1, GVVL, P);
+  PRINT_POLYS(vars_left, GVVL, P);
   cout << "Level j polys" << endl;
-  PRINT_POLYS(1, GVVL, J);
+  PRINT_POLYS(vars_left, GVVL, J);
   //PRINT_POLY_LIST(1, GVVL, p1);
 
   cout << "Printing poly list" << endl;
