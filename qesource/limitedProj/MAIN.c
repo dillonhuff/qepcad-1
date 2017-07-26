@@ -224,7 +224,7 @@ void QepcadCls::PROJECT_QVARS(Word Fs, Word *t_, Word *F_e_, Word *F_n_, Word *F
 
   printf("r              = %d\n", r);
 
-  int base_var = 2;
+  int base_var = 3;
   PROJECT_DOWN_TO(base_var, r, A, &P, &J);
 
   printf("# of projection factors  = %d\n", LENGTH(P));
