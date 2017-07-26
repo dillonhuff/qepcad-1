@@ -144,7 +144,3 @@ Return: /* Prepare for return. */
        *J_ = J;
        return;
 }
-
-
-
-
